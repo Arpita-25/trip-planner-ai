@@ -1,0 +1,202 @@
+{
+  "theme": "warm-light",
+  "archetype": "Organic & Earthy with Premium Editorial Warmth",
+  "overview": "VoyageAI / Odyssey: An AI-first travel planning & discovery platform that unifies natural language prompt parsing, multi-city day-by-day itineraries, flight & stay search, curated explore feeds (food, nightlife, beaches, activities), and deterministic budget breakdowns. Visual tone is soothing, warm, refined, and vacation-ready with warm sand/cream surfaces, terracotta & deep sapphire accents, crystal glass nav, rich photography, and tight typography.",
+  "colors": {
+    "surfaces": [
+      {
+        "name": "page",
+        "kind": "solid",
+        "bg": "#FAF7F2",
+        "on_bg": "#1C1917",
+        "on_bg_muted": "#57534E",
+        "roles": {
+          "link": "#C85A32",
+          "error": "#B91C1C",
+          "success": "#15803D",
+          "warning": "#B45309"
+        }
+      },
+      {
+        "name": "panel",
+        "kind": "solid",
+        "bg": "#FFFFFF",
+        "on_bg": "#1C1917",
+        "on_bg_muted": "#78716C",
+        "roles": {
+          "link": "#C85A32",
+          "error": "#B91C1C",
+          "success": "#15803D",
+          "border": "#E7E5E4"
+        }
+      },
+      {
+        "name": "panel_warm",
+        "kind": "solid",
+        "bg": "#F5EFE6",
+        "on_bg": "#1C1917",
+        "on_bg_muted": "#57534E",
+        "roles": {
+          "highlight": "#C85A32"
+        }
+      },
+      {
+        "name": "inverse",
+        "kind": "solid",
+        "bg": "#1C1917",
+        "on_bg": "#FAF7F2",
+        "on_bg_muted": "#A8A29E",
+        "roles": {
+          "link": "#F97316",
+          "error": "#F87171",
+          "success": "#4ADE80"
+        }
+      },
+      {
+        "name": "hero",
+        "kind": "image",
+        "contrast_against": "#1C1917",
+        "guarantee": "scrim: linear-gradient(180deg, rgba(28,25,23,0.75) 0%, rgba(28,25,23,0.50) 60%, rgba(28,25,23,0.85) 100%)",
+        "on_bg": "#FFFFFF",
+        "on_bg_muted": "#D6D3D1",
+        "roles": {
+          "link": "#FB923C",
+          "badge_bg": "rgba(255,255,255,0.15)",
+          "badge_text": "#FFFFFF"
+        }
+      },
+      {
+        "name": "chip_active",
+        "kind": "solid",
+        "bg": "#C85A32",
+        "on_bg": "#FFFFFF",
+        "on_bg_muted": "#FED7AA"
+      },
+      {
+        "name": "chip_inactive",
+        "kind": "solid",
+        "bg": "#EFEAE1",
+        "on_bg": "#292524",
+        "on_bg_muted": "#78716C"
+      },
+      {
+        "name": "match_pill_high",
+        "kind": "solid",
+        "bg": "#DCFCE7",
+        "on_bg": "#14532D",
+        "on_bg_muted": "#166534"
+      }
+    ],
+    "accent": "#C85A32",
+    "on_accent": "#FFFFFF",
+    "secondary_accent": "#0F4C5C",
+    "on_secondary_accent": "#FFFFFF",
+    "warm_neutral_border": "#E7E2D8"
+  },
+  "typography": {
+    "font_heading": "'Playfair Display Variable', serif",
+    "font_body": "'DM Sans Variable', sans-serif",
+    "font_mono": "'IBM Plex Mono', monospace",
+    "import_statement": "@import \"@fontsource-variable/playfair-display\";\n@import \"@fontsource-variable/dm-sans\";\n@import \"@fontsource/ibm-plex-mono\";",
+    "scale_px": {
+      "display": 56,
+      "h1": 42,
+      "h2": 32,
+      "h3": 22,
+      "body": 16,
+      "caption": 14
+    },
+    "rules": {
+      "headings": "font-serif tracking-tight text-stone-900 leading-tight",
+      "body": "font-sans leading-relaxed text-stone-700",
+      "labels": "font-mono uppercase text-xs tracking-wider text-stone-500",
+      "currency_numbers": "font-sans font-semibold tracking-tight"
+    }
+  },
+  "entry_surfaces": {
+    "/": "editorial split hero — left: brand promise, floating prompt box with pre-filled natural language buttons and currency selector (₹ INR default); right: interactive preview trip snapshot card over sun-drenched Phuket longtail boat backdrop",
+    "/trips": "clean grid header with active trips count, filter chips (upcoming, draft, past), and high-contrast 'Create New Trip' quick prompt modal trigger",
+    "/trip/:id": "unified multi-tab command hub — floating top bar with destination badge, duration, ₹ budget tracker pill, and 6 active view tabs (Itinerary Timeline, Flights, Stays, Explore, Budget Math, AI Copilot)",
+    "/login": "branded split auth — left side warm terracotta editorial with quotes on wanderlust; right side clean minimalist email/password form with Google/mock SSO option",
+    "/register": "branded split auth matching login with instant intent-selector for 'Solo explorer', 'Couple getaway', or 'Group trip'"
+  },
+  "layouts": {
+    "hero_section": "relative min-h-[580px] lg:min-h-[640px] flex items-center bg-[#FAF7F2] overflow-hidden px-4 sm:px-8 lg:px-12 py-12 rounded-3xl border border-[#E7E2D8] shadow-sm mb-12",
+    "natural_language_bar": "w-full max-w-4xl mx-auto bg-white/95 backdrop-blur-xl border-2 border-[#E7E2D8] focus-within:border-[#C85A32] rounded-2xl p-3 sm:p-4 shadow-xl transition-all duration-300",
+    "bento_grid": "grid grid-cols-1 md:grid-cols-8 lg:grid-cols-12 gap-6 my-10",
+    "itinerary_timeline": "relative border-l-2 border-[#E7E2D8] ml-4 md:ml-6 pl-6 space-y-8",
+    "card_flight": "bg-white border border-[#E7E2D8] hover:border-stone-400 rounded-2xl p-5 shadow-sm hover:shadow-md transition-all flex flex-col md:flex-row items-start md:items-center justify-between gap-4",
+    "card_stay": "bg-white border border-[#E7E2D8] hover:border-stone-400 rounded-2xl overflow-hidden shadow-sm hover:shadow-lg transition-all group",
+    "card_explore": "bg-white border border-[#E7E2D8] rounded-2xl overflow-hidden hover:shadow-md transition-all flex flex-col"
+  },
+  "component_paths": {
+    "layout_shell": "/app/frontend/src/components/Navbar.tsx",
+    "hero_ai_input": "/app/frontend/src/components/NaturalLanguageInput.tsx",
+    "itinerary_day": "/app/frontend/src/components/ItineraryDayView.tsx",
+    "ai_assistant_drawer": "/app/frontend/src/components/AiModificationSheet.tsx",
+    "flight_card": "/app/frontend/src/components/FlightCard.tsx",
+    "stay_card": "/app/frontend/src/components/StayCard.tsx",
+    "explore_card": "/app/frontend/src/components/ExploreCard.tsx",
+    "budget_breakdown": "/app/frontend/src/components/BudgetCalculator.tsx",
+    "trip_header": "/app/frontend/src/components/TripHeader.tsx"
+  },
+  "image_urls": {
+    "hero_thailand": {
+      "url": "https://images.unsplash.com/photo-1552465011-b4e21bf6e79a?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwxfHx0aGFpbGFuZCUyMGJlYWNoJTIwdHJvcGljYWx8ZW58MHx8fHwxNzg2MTIyMjQ4fDA&ixlib=rb-4.1.0&q=85",
+      "description": "Traditional Thai longtail boats in Andaman Sea with limestone cliffs",
+      "category": "Hero / Destination Cover"
+    },
+    "destination_phuket_aerial": {
+      "url": "https://images.unsplash.com/photo-1534008897995-27a23e859048?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NTYxODF8MHwxfHNlYXJjaHwyfHx0aGFpbGFuZCUyMGJlYWNoJTIwdHJvcGljYWx8ZW58MHx8fHwxNzg2MTIyMjQ4fDA&ixlib=rb-4.1.0&q=85",
+      "description": "Aerial view of turquoise bay and boats in Phi Phi / Phuket",
+      "category": "Explore / Places / Beaches"
+    },
+    "stay_luxury_villa_pool": {
+      "url": "https://images.unsplash.com/photo-1615722440048-da4ccf6de048?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHwyfHxsdXh1cnklMjByZXNvcnQlMjBwb29sJTIwdmlsbGF8ZW58MHx8fHwxNzkwODgwNjk3fDA&ixlib=rb-4.1.0&q=85",
+      "description": "Luxury sea view infinity pool villa",
+      "category": "Stays / Accommodation"
+    },
+    "stay_tropical_resort": {
+      "url": "https://images.unsplash.com/photo-1582498674105-ad104fcc5784?crop=entropy&cs=srgb&fm=jpg&ixid=M3w4NjY2NjV8MHwxfHNlYXJjaHw0fHxsdXh1cnklMjByZXNvcnQlMjBwb29sJTIwdmlsbGF8ZW58MHx8fHwxNzkwODgwNjk3fDA&ixlib=rb-4.1.0&q=85",
+      "description": "Tropical resort pool surrounded by palm trees",
+      "category": "Stays / Accommodation"
+    },
+    "nightlife_bangkok_neon": {
+      "url": "https://images.unsplash.com/photo-1694501898583-7caca30dde01?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2ODh8MHwxfHNlYXJjaHw0fHxiYW5na29rJTIwc3RyZWV0JTIwZm9vZCUyMG5pZ2h0JTIwbWFya2V0fGVufDB8fHx8MTc5MDg4MDY5N3ww&ixlib=rb-4.1.0&q=85",
+      "description": "Vibrant bustling night street in Bangkok with illuminated neon signs and tuk tuks",
+      "category": "Explore / Nightlife"
+    },
+    "food_night_market": {
+      "url": "https://images.unsplash.com/photo-1628324716243-0c9c29971a58?crop=entropy&cs=srgb&fm=jpg&ixid=M3w3NTY2ODh8MHwxfHNlYXJjaHwyfHxiYW5na29rJTIwc3RyZWV0JTIwZm9vZCUyMG5pZ2h0JTIwbWFya2V0fGVufDB8fHx8MTc5MDg4MDY5N3ww&ixlib=rb-4.1.0&q=85",
+      "description": "Artisan street food vendor stall in night market",
+      "category": "Explore / Food & Dining"
+    }
+  },
+  "motion": {
+    "page_transition": "animate-in fade-in-50 duration-300 ease-out",
+    "chip_tap": "transition-transform duration-150 active:scale-95",
+    "card_hover": "transition duration-200 hover:-translate-y-1 hover:shadow-lg",
+    "ai_generating_pulse": "animate-pulse bg-gradient-to-r from-stone-100 via-amber-50 to-stone-100"
+  },
+  "accessibility": {
+    "min_contrast": "All text tokens exceed APCA standards / WCAG AA 4.5:1 ratio",
+    "test_ids": "Mandatory kebab-case data-testid on every interactive control, search input, prompt button, filter chip, and booking deep link",
+    "keyboard_nav": "Full tab index and active focus outline: ring-2 ring-[#C85A32] ring-offset-2"
+  },
+  "instructions_to_main_agent": [
+    "1. Replace index.css fonts with @fontsource-variable/playfair-display (heading) and @fontsource-variable/dm-sans (body) + @fontsource/ibm-plex-mono (mono metrics).",
+    "2. Use warm-light palette: Page background #FAF7F2, card surface #FFFFFF with subtle borders #E7E2D8. Primary CTA is warm Terracotta (#C85A32), secondary is Deep Teal (#0F4C5C).",
+    "3. Seed rich example prompts on the home screen: 'Plan me a 7-day Thailand trip. I want beaches, beach hopping and nightlife. I care less about temples and museums. My budget is ₹1.2 lakh.' and '5 days in Tokyo & Kyoto for street food, anime spots, and quiet tea houses with ₹2.5 lakh budget'.",
+    "4. All budget calculations (Flights + Stays + Food + Activities + Nightlife + Transport = Total vs Budget remaining) MUST be deterministic backend Python/frontend JS calculations, with Indian numbering format (e.g. ₹1,20,000 / ₹1.2 Lakh).",
+    "5. Accommodation discovery must display explainable match % cards with deterministic reasons (e.g. '96% Match: Fits your ₹8,000/night budget, has infinity pool & 500m from Patong nightlife').",
+    "6. Flight cards must clearly show stops, duration, airline logo/mark, timing, baggage info, and external provider booking redirect button with mock/live mode tags.",
+    "7. Include conversational AI adjustment sheet/modal ('Ask AI to adjust' -> e.g. 'Add one more day in Krabi', 'Swap day 3 temple with beach club') that updates the timeline seamlessly.",
+    "8. Implement data-testid on all key interactive elements (e.g. data-testid='plan-trip-prompt-input', data-testid='generate-trip-button', data-testid='flight-book-link', data-testid='add-to-itinerary-btn')."
+  ],
+  "UNIVERSAL GUIDELINES FOR MAIN AGENT": {
+    "avoid_ai_slop": "Do NOT use default dark-mode tech gradients or purple neon. Use warm organic stone tones (#FAF7F2) paired with terracotta (#C85A32), deep sea teal (#0F4C5C), and sun-washed accents.",
+    "spacing": "Maintain generous breathing room: p-6 to p-10 on cards, py-16 on sections. Never collide text against container borders.",
+    "typography": "Playfair Display for editorial headings, DM Sans for high-legibility body, IBM Plex Mono for timings/prices/badges.",
+    "images": "Use real Unsplash photography provided in image_urls for Thai beaches, pool villas, and night markets. Never use placeholder URLs."
+  }
+}
