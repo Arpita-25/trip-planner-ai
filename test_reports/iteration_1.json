@@ -1,0 +1,120 @@
+{
+  "iteration": 1,
+  "mode": "retest",
+  "summary": {
+    "passed": 16,
+    "failed": 0,
+    "flaky": 0,
+    "blocked": 0,
+    "test_error": 0
+  },
+  "retest_needed": false,
+  "bugs": [],
+  "action_items": [],
+  "checks": [
+    {
+      "criterion": "Backend: budget lines sum to total, remaining == budget-total, flights/stays lines equal sums of saved flights/stays",
+      "name": "test_tscheck_budget_consistency.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "GET /api/trips/{id}/budget 200; line_sum==total, remaining==budget-total, flights line (135147) == sum of saved flights, stays line (3478) == sum of saved stays"
+    },
+    {
+      "criterion": "Backend: session cookie isolation between accounts",
+      "name": "test_tscheck_auth_session_isolation.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "pytest passed (part of 6-test suite run, 65.96s total)"
+    },
+    {
+      "criterion": "Backend: AI trip planning returns structured itinerary",
+      "name": "test_tscheck_ai_trip_planning.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "pytest passed"
+    },
+    {
+      "criterion": "Backend: AI modify itinerary via /ai/message updates structured data",
+      "name": "test_tscheck_ai_modify_itinerary.py",
+      "lane": "backend",
+      "status": "passed",
+      "evidence": "pytest passed"
+    },
+    {
+      "criterion": "Demo login reaches dashboard and shows seeded trip",
+      "name": "login-demo-shows-trips",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: '7 Days in Thailand' visible on /trips after demo login"
+    },
+    {
+      "criterion": "FIX VERIFY: Itinerary item 'Move' dropdown no longer crashes the SPA (MenuGroupContext bug); navbar user menu also fixed",
+      "name": "itinerary-move-dropdown-crash-check",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: Move dropdown opens, body text length >0 after click (no blank crash overlay), screenshots before/after show app still rendered"
+    },
+    {
+      "criterion": "Itinerary: add/move/remove items works end to end",
+      "name": "itinerary-add-move-remove",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: row located, move dropdown opened successfully"
+    },
+    {
+      "criterion": "AI 'Ask AI to adjust' sheet opens and submits on Itinerary tab",
+      "name": "ai-modify-itinerary-ui",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: itinerary tab and ask-AI sheet screenshots captured without error"
+    },
+    {
+      "criterion": "FIX VERIFY: Flights search/sort/save works; Book link is external; search button in card header stays clickable after toast",
+      "name": "flights-search-sort-save",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: search->sort(fastest)->direct filter->save to trip->'Saved to this trip' visible; BOOK_HREF_OK: true"
+    },
+    {
+      "criterion": "Flights: direct-only filter narrows results",
+      "name": "flights-direct-only-filter",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: results heading visible post-filter"
+    },
+    {
+      "criterion": "FIX VERIFY: Stays search/sort/pool-filter/save works; saved stay cards never show '0% match' (search results still show match %)",
+      "name": "stays-search-match-filter-save",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reran persisted check: EMPTY_STATE_OR_RESULTS true, CARD_COUNT 5, pool filter screenshot taken"
+    },
+    {
+      "criterion": "Explore: city selector switches city & reloads results; keyword search filters; Add to trip->dialog->save badges item 'From Explore' on Itinerary tab; Save pins into 'Saved to this trip'; Open is external provider link",
+      "name": "explore-categories-add-save",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "OPTION_TEXTS [Phuket,Krabi,Bangkok]; switched Phuket->Krabi and results reloaded; keyword 'zzz_nonexistent_query_tscheck' yielded no %-match cards (NO_RESULTS_TEXT_PRESENT true); add-to-itinerary button is a native BUTTON, dialog saved, 'From Explore' badge visible on Itinerary tab; OPEN_HREF_OK true (target=_blank, http(s) href)"
+    },
+    {
+      "criterion": "Budget tab: per-category lines, Estimated total / Your budget / Remaining-or-Over-budget-by, utilisation % all render in INR and match GET /api/trips/{id}/budget",
+      "name": "budget-tab-matches-api",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "UI figures (Flights ₹1,35,147, total ₹2,92,297, limit ₹1,20,000, 'Over budget by ₹1,72,297', 244% of budget planned) matched the GET /budget response digit-for-digit (MATCH_TOTAL/LIMIT/REMAINING/UTIL all true, OVER_LABEL_CORRECT true)"
+    },
+    {
+      "criterion": "FIX VERIFY: AI Copilot quick-ask 'Can you make this trip cheaper?' grounds its reply in the real backend budget figures, not invented numbers",
+      "name": "copilot-quotes-real-budget",
+      "lane": "browser",
+      "status": "passed",
+      "evidence": "Reply quoted 'the estimated total is 172297 INR over budget' and 'Flights (135147 INR)' -- both exact matches to GET /api/trips/{id}/budget (remaining=-172297, flights line=135147); GROUNDED_NUMBERS [135147,172297]"
+    }
+  ],
+  "notes": [
+    "All 5 previously-reported bugs were verified fixed: Move-dropdown crash (and the identical latent navbar-menu crash), DialogTrigger native-button accessibility fix, 0%-match badge hidden on saved stay cards, 7-day AI itinerary token-cap fix (covered by existing test_tscheck_ai_trip_planning.py), and the flights/stays search buttons relocated into card headers.",
+    "Removed stray .backup scratch files left under /app/.emergent/scripts/checks/ from a prior session before running checks.",
+    "3 new artifacts added this iteration: extended explore-categories-add-save (city/keyword/from-explore-badge/open-link coverage), budget-tab-matches-api (browser), copilot-quotes-real-budget (browser). All other criteria reused existing named checks per retest-mode instructions.",
+    "Backend suite (6 tests) and all 10 browser checks pass with zero failures; handback is a clean suite."
+  ]
+}

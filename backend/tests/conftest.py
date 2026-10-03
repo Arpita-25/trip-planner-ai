@@ -45,3 +45,43 @@ async def aclient():
 
 
 # --- app-specific fixtures below this line ---
+
+
+class CookieAwareClient:
+    """Thin wrapper around httpx.Client that manually forwards the session cookie.
+
+    The app sets `Secure` on the session cookie whenever APP_URL starts with https
+    (true in this pod's .env, since the public ingress is https) — correct production
+    behaviour, but it means a plain httpx cookie jar talking to http://localhost won't
+    re-send the cookie automatically. We extract the Set-Cookie value ourselves and
+    attach it as a header on every subsequent request so backend tests against
+    localhost:8001 can still exercise authenticated routes.
+    """
+
+    def __init__(self, base_url: str, timeout: float = 30.0):
+        self._client = httpx.Client(base_url=base_url, timeout=timeout)
+        self._session_token: str | None = None
+
+    def _headers(self, headers: dict | None) -> dict:
+        merged = dict(headers or {})
+        if self._session_token:
+            merged["Cookie"] = f"voyage_session={self._session_token}"
+        return merged
+
+    def _capture(self, resp: httpx.Response) -> httpx.Response:
+        token = resp.cookies.get("voyage_session")
+        if token:
+            self._session_token = token
+        return resp
+
+    def post(self, url, json=None, headers=None, **kw):
+        return self._capture(self._client.post(url, json=json, headers=self._headers(headers), **kw))
+
+    def get(self, url, headers=None, **kw):
+        return self._capture(self._client.get(url, headers=self._headers(headers), **kw))
+
+    def delete(self, url, headers=None, **kw):
+        return self._capture(self._client.delete(url, headers=self._headers(headers), **kw))
+
+    def close(self):
+        self._client.close()
