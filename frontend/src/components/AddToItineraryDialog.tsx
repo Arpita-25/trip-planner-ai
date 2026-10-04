@@ -1,4 +1,4 @@
-import { useState } from "react";
+import { cloneElement, useState } from "react";
 import { useMutation, useQueryClient } from "@tanstack/react-query";
 import { toast } from "sonner";
 
@@ -33,7 +33,8 @@ const CATEGORIES: SlotCategory[] = [
 interface Props {
   trip: Trip;
   prefill?: Partial<ItineraryItemCreate>;
-  trigger: React.ReactNode;
+  /** Rendered as the trigger itself (must be a button-like element), not wrapped. */
+  trigger: React.ReactElement;
   testId: string;
 }
 
@@ -89,7 +90,11 @@ export default function AddToItineraryDialog({ trip, prefill, trigger, testId }:
 
   return (
     <Dialog open={open} onOpenChange={setOpen}>
-      <DialogTrigger render={<span data-testid={testId}>{trigger}</span>} />
+      <DialogTrigger
+        render={cloneElement(trigger as React.ReactElement<{ "data-testid"?: string }>, {
+          "data-testid": testId,
+        })}
+      />
       <DialogContent className="sm:max-w-lg" data-testid="add-to-itinerary-dialog">
         <DialogHeader>
           <DialogTitle className="font-display text-2xl">Add to itinerary</DialogTitle>

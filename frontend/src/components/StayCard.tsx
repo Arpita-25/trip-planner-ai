@@ -35,16 +35,21 @@ export default function StayCard({ stay, saved, onToggleSave, pending }: Props) 
           className="size-full object-cover transition-transform duration-500 group-hover:scale-105"
         />
         <div className="absolute inset-x-0 top-0 flex items-start justify-between p-3">
-          <Badge variant="outline" className="border-white/30 bg-black/45 text-white backdrop-blur">
-            {stay.property_type}
-          </Badge>
           <Badge
             variant="outline"
-            className={cn("label-mono font-semibold", matchTone)}
-            data-testid={`stay-match-score-${stay.id}`}
+            className={cn("border-white/30 bg-black/45 text-white backdrop-blur")}
           >
-            {stay.match_score}% match
+            {stay.property_type}
           </Badge>
+          {stay.match_score > 0 && (
+            <Badge
+              variant="outline"
+              className={cn("label-mono font-semibold", matchTone)}
+              data-testid={`stay-match-score-${stay.id}`}
+            >
+              {stay.match_score}% match
+            </Badge>
+          )}
         </div>
       </div>
 

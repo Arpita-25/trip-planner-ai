@@ -5,6 +5,7 @@ import { Button } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuTrigger,
@@ -82,17 +83,19 @@ export default function ItineraryDayView({ day, trip, onRemoveItem, onMoveItem, 
                       }
                     />
                     <DropdownMenuContent align="end">
-                      <DropdownMenuLabel>Move to day</DropdownMenuLabel>
-                      {trip.itinerary.map((target) => (
-                        <DropdownMenuItem
-                          key={target.day_number}
-                          disabled={target.day_number === day.day_number}
-                          onClick={() => onMoveItem(slot.id, target.day_number)}
-                          data-testid={`itinerary-slot-move-${slot.id}-to-${target.day_number}`}
-                        >
-                          Day {target.day_number} — {target.city}
-                        </DropdownMenuItem>
-                      ))}
+                      <DropdownMenuGroup>
+                        <DropdownMenuLabel>Move to day</DropdownMenuLabel>
+                        {trip.itinerary.map((target) => (
+                          <DropdownMenuItem
+                            key={target.day_number}
+                            disabled={target.day_number === day.day_number}
+                            onClick={() => onMoveItem(slot.id, target.day_number)}
+                            data-testid={`itinerary-slot-move-${slot.id}-to-${target.day_number}`}
+                          >
+                            Day {target.day_number} — {target.city}
+                          </DropdownMenuItem>
+                        ))}
+                      </DropdownMenuGroup>
                     </DropdownMenuContent>
                   </DropdownMenu>
                   <Button

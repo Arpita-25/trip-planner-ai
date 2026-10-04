@@ -7,6 +7,7 @@ import AssistantPanel from "@/components/panels/AssistantPanel";
 import ExplorePanel from "@/components/panels/ExplorePanel";
 import FlightsPanel from "@/components/panels/FlightsPanel";
 import ItineraryPanel from "@/components/panels/ItineraryPanel";
+import MapPanel from "@/components/panels/MapPanel";
 import OverviewPanel from "@/components/panels/OverviewPanel";
 import StaysPanel from "@/components/panels/StaysPanel";
 import { buttonVariants } from "@/components/ui/button";
@@ -23,6 +24,7 @@ const TABS = [
   { value: "flights", label: "Flights" },
   { value: "stays", label: "Stays" },
   { value: "explore", label: "Explore" },
+  { value: "map", label: "Map" },
   { value: "budget", label: "Budget" },
   { value: "copilot", label: "AI Copilot" },
 ];
@@ -108,6 +110,9 @@ export default function TripDetail() {
           </TabsContent>
           <TabsContent value="explore">
             <ExplorePanel trip={trip} />
+          </TabsContent>
+          <TabsContent value="map">
+            <MapPanel trip={trip} />
           </TabsContent>
           <TabsContent value="budget">
             <div className="grid gap-6 lg:grid-cols-2" data-testid="budget-panel">
