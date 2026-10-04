@@ -6,7 +6,7 @@ import { toast } from "sonner";
 import Field from "@/components/Field";
 import FlightCard from "@/components/FlightCard";
 import { Button } from "@/components/ui/button";
-import { Card, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
+import { Card, CardAction, CardContent, CardDescription, CardHeader, CardTitle } from "@/components/ui/card";
 import { Input } from "@/components/ui/input";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { errorDetail, useSavedOption } from "@/hooks/useTrip";
@@ -87,6 +87,12 @@ export default function FlightsPanel({ trip }: { trip: Trip }) {
         <CardHeader>
           <CardTitle className="font-display text-xl">Search flights</CardTitle>
           <CardDescription>Dates default to your trip window</CardDescription>
+          <CardAction>
+            <Button onClick={runSearch} disabled={search.isPending} data-testid="flight-search-button">
+              <Search className="size-4" />
+              {search.isPending ? "Searching…" : "Search flights"}
+            </Button>
+          </CardAction>
         </CardHeader>
         <CardContent className="space-y-4">
           <div className="grid gap-4 sm:grid-cols-2 lg:grid-cols-4">
@@ -213,10 +219,6 @@ export default function FlightsPanel({ trip }: { trip: Trip }) {
                 data-testid="flight-airline-input"
               />
             </Field>
-            <Button onClick={runSearch} disabled={search.isPending} data-testid="flight-search-button">
-              <Search className="size-4" />
-              {search.isPending ? "Searching…" : "Search flights"}
-            </Button>
           </div>
         </CardContent>
       </Card>

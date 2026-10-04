@@ -5,6 +5,7 @@ import { Button, buttonVariants } from "@/components/ui/button";
 import {
   DropdownMenu,
   DropdownMenuContent,
+  DropdownMenuGroup,
   DropdownMenuItem,
   DropdownMenuLabel,
   DropdownMenuSeparator,
@@ -74,24 +75,26 @@ export default function Navbar() {
                   }
                 />
                 <DropdownMenuContent align="end" className="w-56">
-                  <DropdownMenuLabel>
-                    <span className="block truncate text-sm font-medium">{user?.name}</span>
-                    <span className="block truncate text-xs text-stone-500">{user?.email}</span>
-                  </DropdownMenuLabel>
-                  <DropdownMenuSeparator />
-                  <DropdownMenuItem
-                    onClick={() => navigate("/trips")}
-                    data-testid="navbar-menu-trips"
-                  >
-                    My trips
-                  </DropdownMenuItem>
-                  <DropdownMenuItem
-                    variant="destructive"
-                    onClick={() => void endSession("/login")}
-                    data-testid="navbar-logout-button"
-                  >
-                    <LogOut className="size-4" /> Sign out
-                  </DropdownMenuItem>
+                  <DropdownMenuGroup>
+                    <DropdownMenuLabel>
+                      <span className="block truncate text-sm font-medium">{user?.name}</span>
+                      <span className="block truncate text-xs text-stone-500">{user?.email}</span>
+                    </DropdownMenuLabel>
+                    <DropdownMenuSeparator />
+                    <DropdownMenuItem
+                      onClick={() => navigate("/trips")}
+                      data-testid="navbar-menu-trips"
+                    >
+                      My trips
+                    </DropdownMenuItem>
+                    <DropdownMenuItem
+                      variant="destructive"
+                      onClick={() => void endSession("/login")}
+                      data-testid="navbar-logout-button"
+                    >
+                      <LogOut className="size-4" /> Sign out
+                    </DropdownMenuItem>
+                  </DropdownMenuGroup>
                 </DropdownMenuContent>
               </DropdownMenu>
             </>

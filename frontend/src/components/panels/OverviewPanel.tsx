@@ -129,6 +129,24 @@ export default function OverviewPanel({ trip, budget, onNavigate }: Props) {
             testId="overview-saved-explore"
           />
         </div>
+
+        <button
+          type="button"
+          onClick={() => onNavigate("map")}
+          className="flex w-full items-center gap-4 rounded-2xl border border-sand-line bg-white p-5 text-left shadow-sm transition-all duration-200 hover:-translate-y-0.5 hover:shadow-md"
+          data-testid="overview-open-map-button"
+        >
+          <span className="flex size-10 shrink-0 items-center justify-center rounded-xl bg-sand text-teal">
+            <MapPinned className="size-5" />
+          </span>
+          <span className="min-w-0 flex-1">
+            <span className="block font-display text-lg font-semibold">See it on the map</span>
+            <span className="block text-sm text-stone-600">
+              How far the beaches, bars and restaurants are from your hotel
+            </span>
+          </span>
+          <ArrowRight className="size-4 shrink-0 text-stone-400" />
+        </button>
       </div>
 
       <div className="space-y-6 lg:col-span-5">
