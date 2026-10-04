@@ -295,3 +295,47 @@ class ItineraryItemUpdate(BaseModel):
     category: Optional[SlotCategory] = None
     notes: Optional[str] = None
     estimated_cost: Optional[float] = Field(default=None, ge=0)
+
+
+# ---------------------------------------------------------------- map view
+
+MapPointKind = Literal["stay", "beach", "nightlife", "food", "activity", "place"]
+
+
+class MapPoint(BaseModel):
+    id: str
+    name: str
+    kind: MapPointKind
+    type_label: str
+    coordinates: Coordinates
+    location: str = ""
+    rating: float = 0.0
+    estimated_cost: float = 0.0
+    currency: str = "INR"
+    distance_km: float = 0.0
+    walk_minutes: int = 0
+    saved: bool = False
+    in_itinerary: bool = False
+    provider_url: str = ""
+
+
+class MapAnchor(BaseModel):
+    """What distances are measured from — a saved stay, or the city centre as a fallback."""
+    id: str
+    name: str
+    kind: Literal["stay", "city"]
+    coordinates: Coordinates
+
+
+class MapViewResponse(BaseModel):
+    city: str
+    center: Coordinates
+    anchor: MapAnchor
+    anchor_options: list[MapAnchor]
+    points: list[MapPoint]
+
+
+class MapsConfig(BaseModel):
+    configured: bool
+    maps_api_key: str
+    map_id: str

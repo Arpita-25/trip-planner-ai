@@ -263,3 +263,45 @@ export interface ItineraryItemCreate {
   provider?: string | null;
   source: "ai" | "user" | "explore";
 }
+
+// ---------------------------------------------------------------- map view
+
+export type MapPointKind = "stay" | "beach" | "nightlife" | "food" | "activity" | "place";
+
+export interface MapPoint {
+  id: string;
+  name: string;
+  kind: MapPointKind;
+  type_label: string;
+  coordinates: Coordinates;
+  location: string;
+  rating: number;
+  estimated_cost: number;
+  currency: string;
+  distance_km: number;
+  walk_minutes: number;
+  saved: boolean;
+  in_itinerary: boolean;
+  provider_url: string;
+}
+
+export interface MapAnchor {
+  id: string;
+  name: string;
+  kind: "stay" | "city";
+  coordinates: Coordinates;
+}
+
+export interface MapViewResponse {
+  city: string;
+  center: Coordinates;
+  anchor: MapAnchor;
+  anchor_options: MapAnchor[];
+  points: MapPoint[];
+}
+
+export interface MapsConfig {
+  configured: boolean;
+  maps_api_key: string;
+  map_id: string;
+}

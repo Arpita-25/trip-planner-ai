@@ -19,6 +19,7 @@ from lib.db import client, db, ensure_indexes
 from routers.ai import router as ai_router
 from routers.auth import router as auth_router
 from routers.discovery import router as discovery_router
+from routers.mapview import router as map_router
 from routers.trips import router as trips_router
 
 
@@ -47,6 +48,7 @@ async def root():
 api_router.include_router(auth_router)
 api_router.include_router(trips_router)
 api_router.include_router(discovery_router)
+api_router.include_router(map_router)
 api_router.include_router(ai_router)
 
 app.add_middleware(
