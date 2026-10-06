@@ -13,15 +13,13 @@ import re
 import time
 import uuid
 from typing import Literal, Optional
+from groq import AsyncGroq
 
 from pydantic import BaseModel, Field, ValidationError
 
 from models.trip import BudgetBreakdown, Coordinates, TimeSlot, Trip, TripDay, TripIntent
 
 logger = logging.getLogger(__name__)
-
-MODEL_PROVIDER = "anthropic"
-MODEL_NAME = "claude-sonnet-5-5"
 
 VALID_CATEGORIES = {"food", "nightlife", "activities", "places", "transport", "stay", "shopping"}
 INTEREST_KEYS = ["beaches", "nightlife", "food", "activities", "culture", "shopping", "nature"]
@@ -31,37 +29,56 @@ class AiUnavailable(RuntimeError):
     """The model failed, timed out, or could not produce valid structured output."""
 
 
-# ----------------------------------------------------------------- LLM transport
+# ----------------------------------------------------------------- LLM transport - There is no external AI provider.
 
-async def _complete(system_message: str, user_text: str, *, session_hint: str) -> str:
-    api_key = os.environ.get("EMERGENT_LLM_KEY")
-    if not api_key:
-        raise AiUnavailable("LLM key is not configured")
+async def _complete(
+    system_message: str,
+    user_text: str,
+    *,
+    session_hint: str,
+    json_mode: bool = True,
+) -> str:
+    provider_mode = os.getenv("PROVIDER_MODE", "mock")
 
-    from emergentintegrations.llm.chat import LlmChat, UserMessage
-
-    chat = (
-        LlmChat(
-            api_key=api_key,
-            session_id=f"{session_hint}-{uuid.uuid4()}",
-            system_message=system_message,
+    if provider_mode != "real":
+        raise AiUnavailable(
+            "External AI provider is disabled; using fallback planner"
         )
-        .with_model(MODEL_PROVIDER, MODEL_NAME)
-        # A long itinerary is a big JSON body: too small a cap truncates it mid-object and the
-        # whole structured call fails validation.
-        .with_params(max_tokens=16000)
-    )
 
-    started = time.perf_counter()
+    api_key = os.getenv("GROQ_API_KEY")
+    model = os.getenv("GROQ_MODEL")
+
+    if not api_key:
+        raise AiUnavailable("GROQ_API_KEY is not configured")
+    if not model:
+        raise AiUnavailable("GROQ_MODEL is not configured")
+
     try:
-        reply = await chat.send_message(UserMessage(text=user_text))
-    except Exception as exc:
-        logger.error("ai_call failed session=%s error=%s", session_hint, exc)
-        raise AiUnavailable(str(exc)) from exc
-    latency_ms = int((time.perf_counter() - started) * 1000)
-    logger.info("ai_call session=%s model=%s latency_ms=%s", session_hint, MODEL_NAME, latency_ms)
-    return reply if isinstance(reply, str) else str(reply)
+        client = AsyncGroq(api_key=api_key)
 
+        kwargs = {
+            "model": model,
+            "messages": [
+                {"role": "system", "content": system_message},
+                {"role": "user", "content": user_text},
+            ],
+            "temperature": 0.2,
+        }
+        if json_mode:
+            kwargs["response_format"] = {"type": "json_object"}
+
+        response = await client.chat.completions.create(**kwargs)
+
+        text = response.choices[0].message.content
+        if not text:
+            raise AiUnavailable("Groq returned an empty response")
+        return text
+
+    except AiUnavailable:
+        raise
+    except Exception as exc:
+        logger.exception("Groq request failed session=%s", session_hint)
+        raise AiUnavailable(f"AI provider request failed: {exc}") from exc
 
 def _extract_json(raw: str) -> dict:
     """Tolerate fenced blocks and leading prose; raise if no JSON object is present."""
@@ -330,7 +347,7 @@ async def assistant_reply(trip: Trip, budget: BudgetBreakdown, message: str) -> 
         f"Estimated total: {budget.total:.0f}\nBudget: {budget.budget:.0f}\n"
         f"Remaining: {budget.remaining:.0f}\n\nTraveller question: {message}"
     )
-    reply = await _complete(_ASSISTANT_SYSTEM, context, session_hint=f"assist-{trip.id}")
+    reply = await _complete(_ASSISTANT_SYSTEM, context, session_hint=f"assist-{trip.id}", json_mode=False)
     return reply.strip()[:2000]
 
 
