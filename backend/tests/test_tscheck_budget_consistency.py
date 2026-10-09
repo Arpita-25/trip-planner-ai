@@ -6,8 +6,8 @@ budget invariants hold against real persisted data.
 
 from .conftest import CookieAwareClient, api_url
 
-DEMO_EMAIL = "demo@voyageai.app"
-DEMO_PASSWORD = "voyage123"
+DEMO_EMAIL = "demo@Roamio.app"
+DEMO_PASSWORD = "Roamio123"
 
 REQUIRED_CATEGORIES = {
     "flights", "stays", "food", "nightlife", "activities", "places", "shopping", "transport",

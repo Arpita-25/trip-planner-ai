@@ -352,3 +352,56 @@ async def assistant_reply(trip: Trip, budget: BudgetBreakdown, message: str) -> 
 
 
 Role = Literal["user", "assistant"]
+
+
+# ----------------------------------------------------------------- 5. conversational intake
+
+
+class ChatTurn(BaseModel):
+    role: Role
+    content: str = Field(min_length=1, max_length=4000)
+
+
+_CHAT_INTAKE_SYSTEM = """You are Roamio's trip-intake companion. Your job is to collect the
+information a planner needs through a warm, short conversation.
+
+Return ONE JSON object and nothing else:
+{
+  "reply": string,     // 1-3 sentences to say next, warm and chat-like. Ask ONE question when you still need info.
+  "done": boolean,     // true ONLY when every required field below is answered
+  "summary": string    // if done=true, a single-sentence planner-friendly recap, otherwise ""
+}
+
+Required fields (don't finish until each is answered, directly or implicitly):
+  - destination (city, country or region)
+  - trip length in days (treat "a week" as 7, "weekend" as 3)
+  - number of travellers
+  - approximate budget (currency + amount, or "flexible"/"no limit")
+  - broad interests or vibe (beaches, nightlife, food, culture, nature, shopping, activities)
+
+Rules:
+  - Ask ONE question per turn. Never two.
+  - Skip anything the traveller already answered — don't re-ask.
+  - Never invent facts the traveller didn't share. If a field is intentionally open ("surprise me"),
+    treat it as answered and move on.
+  - When done=true, make summary a crisp line a planner can act on, e.g.
+    "7-day trip to Thailand for 2 travellers under INR 120000; beaches, nightlife, food."
+"""
+
+
+async def chat_intake(history: list[ChatTurn], latest: str) -> dict:
+    """Multi-turn intake. Returns {reply, done, summary}."""
+    convo_lines = [f"{turn.role.upper()}: {turn.content}" for turn in history]
+    convo_lines.append(f"USER: {latest}")
+    convo = "\n".join(convo_lines)
+    payload = await _structured_call(
+        _CHAT_INTAKE_SYSTEM,
+        f"Conversation so far:\n{convo}\n\nReply with the JSON object now.",
+        session_hint="chat-intake",
+    )
+    reply = str(payload.get("reply") or "").strip()
+    if not reply:
+        raise AiUnavailable("chat model returned no reply")
+    done = bool(payload.get("done"))
+    summary = str(payload.get("summary") or "").strip() if done else ""
+    return {"reply": reply[:1200], "done": done, "summary": summary[:1200]}

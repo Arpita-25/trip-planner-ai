@@ -81,14 +81,14 @@ export default function Login() {
 
       <div className="mt-6 rounded-xl border border-sand-line bg-sand p-4 text-sm text-stone-600">
         <p className="font-medium text-stone-700">Demo account</p>
-        <p className="mt-1 font-mono text-xs">demo@voyageai.app / voyage123</p>
+        <p className="mt-1 font-mono text-xs">demo@Roamio.app / Roamio123</p>
         <Button
           variant="outline"
           size="sm"
           className="mt-3"
           onClick={() => {
-            setEmail("demo@voyageai.app");
-            setPassword("voyage123");
+            setEmail("demo@Roamio.app");
+            setPassword("Roamio123");
           }}
           data-testid="login-fill-demo-button"
         >

@@ -25,11 +25,11 @@ export default function AuthLayout({
             <span className="flex size-9 items-center justify-center rounded-xl bg-white/20 backdrop-blur">
               <Compass className="size-5" />
             </span>
-            <span className="font-display text-xl font-semibold">VoyageAI</span>
+            <span className="font-display text-xl font-semibold">Roamio</span>
           </Link>
           <div>
             <p className="font-display text-4xl leading-tight font-semibold">
-              "Describe the trip you want. We'll handle the structure."
+              "Chat your trip into existence. We'll handle the structure."
             </p>
             <p className="mt-4 max-w-md text-white/80">
               Itineraries, flights, stays, food and nightlife — organised around one trip, with a
@@ -43,10 +43,10 @@ export default function AuthLayout({
       <div className="flex items-center justify-center px-5 py-14 sm:px-10">
         <div className="w-full max-w-md">
           <Link to="/" className="mb-8 flex items-center gap-2.5 lg:hidden">
-            <span className="flex size-9 items-center justify-center rounded-xl bg-terracotta text-white">
+            <span className="flex size-9 items-center justify-center rounded-xl bg-primary text-primary-foreground">
               <Compass className="size-5" />
             </span>
-            <span className="font-display text-xl font-semibold">VoyageAI</span>
+            <span className="font-display text-xl font-semibold">Roamio</span>
           </Link>
           <h1 className="font-display text-3xl font-semibold sm:text-4xl">{title}</h1>
           <p className="mt-2 text-stone-600">{subtitle}</p>

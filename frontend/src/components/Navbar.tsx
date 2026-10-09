@@ -35,7 +35,7 @@ export default function Navbar() {
           <span className="flex size-9 items-center justify-center rounded-xl bg-terracotta text-white transition-transform duration-200 group-hover:rotate-12">
             <Compass className="size-5" />
           </span>
-          <span className="font-display text-xl font-semibold">VoyageAI</span>
+          <span className="font-display text-xl font-semibold">Roamio</span>
         </Link>
 
         <nav className="hidden items-center gap-1 sm:flex">

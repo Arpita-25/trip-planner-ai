@@ -44,8 +44,8 @@ async def login(payload: LoginRequest, response: Response) -> User:
 
 
 @router.post("/logout", status_code=204)
-async def logout(response: Response, voyage_session: str | None = Cookie(default=None)) -> None:
-    await destroy_session(voyage_session, response)
+async def logout(response: Response, Roamio_session: str | None = Cookie(default=None)) -> None:
+    await destroy_session(Roamio_session, response)
 
 
 @router.get("/me", response_model=User)

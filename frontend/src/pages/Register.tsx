@@ -32,7 +32,7 @@ export default function Register() {
     onSuccess: () => {
       beginSession();
       // A prompt typed on the landing page replays automatically once the session exists.
-      navigate(sessionStorage.getItem("voyage:pending-prompt") ? "/" : "/trips");
+      navigate(sessionStorage.getItem("Roamio:pending-prompt") ? "/" : "/trips");
     },
     onError: (error) => toast.error(errorDetail(error, "We couldn't create your account.")),
   });

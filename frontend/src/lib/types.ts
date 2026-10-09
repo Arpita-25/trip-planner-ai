@@ -209,6 +209,18 @@ export interface AiMessageResponse {
   budget: BudgetBreakdown;
 }
 
+export interface ChatMessage {
+  role: "user" | "assistant";
+  content: string;
+}
+
+export interface ChatResponse {
+  reply: string;
+  done: boolean;
+  trip?: Trip | null;
+  source?: string | null;
+}
+
 // ---------------------------------------------------------------- search requests
 
 export interface FlightSearchRequest {

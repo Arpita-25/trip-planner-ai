@@ -65,11 +65,11 @@ class CookieAwareClient:
     def _headers(self, headers: dict | None) -> dict:
         merged = dict(headers or {})
         if self._session_token:
-            merged["Cookie"] = f"voyage_session={self._session_token}"
+            merged["Cookie"] = f"Roamio_session={self._session_token}"
         return merged
 
     def _capture(self, resp: httpx.Response) -> httpx.Response:
-        token = resp.cookies.get("voyage_session")
+        token = resp.cookies.get("Roamio_session")
         if token:
             self._session_token = token
         return resp

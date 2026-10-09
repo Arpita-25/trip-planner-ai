@@ -3,11 +3,20 @@ dates, prices and persists — and degrades to the deterministic planner on fail
 """
 
 import logging
+from typing import Literal, Optional
 
 from fastapi import APIRouter, Depends, HTTPException
-from pydantic import BaseModel
+from pydantic import BaseModel, Field
 
-from lib.ai import AiUnavailable, assistant_reply, extract_intent, generate_itinerary, modify_itinerary
+from lib.ai import (
+    AiUnavailable,
+    ChatTurn,
+    assistant_reply,
+    chat_intake,
+    extract_intent,
+    generate_itinerary,
+    modify_itinerary,
+)
 from lib.budget import compute_budget
 from lib.planner import (
     build_fallback_itinerary,
@@ -37,6 +46,23 @@ class TripPlanResponse(BaseModel):
     trip: Trip
     message: str
     source: str          # "ai" when the model drafted it, "fallback" when code did
+
+
+class ChatMessageIn(BaseModel):
+    role: Literal["user", "assistant"]
+    content: str = Field(min_length=1, max_length=4000)
+
+
+class ChatRequest(BaseModel):
+    history: list[ChatMessageIn] = Field(default_factory=list, max_length=40)
+    message: str = Field(min_length=1, max_length=4000)
+
+
+class ChatResponse(BaseModel):
+    reply: str
+    done: bool
+    trip: Optional[Trip] = None
+    source: Optional[str] = None
 
 
 @router.post("/ai/parse", response_model=TripIntent)
@@ -84,6 +110,50 @@ async def plan_trip_from_prompt(
     await save_trip(trip)
     logger.info("ai_trip_created trip=%s user=%s source=%s", trip.id, user.id, source)
     return TripPlanResponse(trip=trip, message=message, source=source)
+
+
+@router.post("/ai/chat", response_model=ChatResponse)
+async def ai_chat(payload: ChatRequest, user: User = Depends(current_user)) -> ChatResponse:
+    """Multi-turn trip intake. Returns a follow-up question OR a finished trip when done=true."""
+    check_ai_rate_limit(user.id)
+    history = [ChatTurn(role=m.role, content=m.content) for m in payload.history]
+    try:
+        result = await chat_intake(history, payload.message)
+    except AiUnavailable as exc:
+        logger.error("ai_chat intake unavailable user=%s error=%s", user.id, exc)
+        raise HTTPException(status_code=503, detail=AI_DOWN) from exc
+
+    if not result["done"]:
+        return ChatResponse(reply=result["reply"], done=False)
+
+    final_prompt = result["summary"] or payload.message
+    try:
+        intent = await extract_intent(final_prompt)
+    except AiUnavailable as exc:
+        logger.error("ai_chat intent unavailable user=%s error=%s", user.id, exc)
+        raise HTTPException(status_code=503, detail=AI_DOWN) from exc
+
+    start = resolve_start_date(None)
+    trip = Trip(
+        user_id=user.id,
+        title=intent.title or f"{intent.duration_days} Days in {intent.destination.title()}",
+        destination=intent.destination,
+        origin=intent.origin,
+        start_date=start,
+        end_date=end_date_for(start, intent.duration_days),
+        duration_days=intent.duration_days,
+        budget_amount=intent.budget_amount or 100000.0,
+        currency=intent.currency or "INR",
+        travelers=intent.travelers,
+        travel_style=intent.travel_style,
+        preferences=intent.interests,
+        cities=split_cities(intent.destination, intent.duration_days),
+        raw_prompt=final_prompt,
+    )
+    trip, _plan_message, source = await _apply_generated_itinerary(trip)
+    await save_trip(trip)
+    logger.info("ai_chat_created trip=%s user=%s source=%s", trip.id, user.id, source)
+    return ChatResponse(reply=result["reply"], done=True, trip=trip, source=source)
 
 
 @router.post("/trips/{trip_id}/ai/plan", response_model=TripPlanResponse)

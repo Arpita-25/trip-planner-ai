@@ -3,6 +3,7 @@ import { Navigate, Route, Routes, useLocation } from "react-router-dom";
 import Navbar from "@/components/Navbar";
 import { Toaster } from "@/components/ui/sonner";
 import { useAuth } from "@/hooks/useAuth";
+import ChatPlan from "@/pages/ChatPlan";
 import CreateTrip from "@/pages/CreateTrip";
 import Landing from "@/pages/Landing";
 import Login from "@/pages/Login";
@@ -59,6 +60,16 @@ export default function App() {
             <Shell>
               <RequireAuth>
                 <Trips />
+              </RequireAuth>
+            </Shell>
+          }
+        />
+        <Route
+          path="/plan"
+          element={
+            <Shell>
+              <RequireAuth>
+                <ChatPlan />
               </RequireAuth>
             </Shell>
           }

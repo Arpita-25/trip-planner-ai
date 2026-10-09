@@ -32,17 +32,17 @@ async def lifespan(app: FastAPI):
 
 
 # Create the main app without a prefix
-app = FastAPI(lifespan=lifespan, title="VoyageAI")
+app = FastAPI(lifespan=lifespan, title="Roamio")
 
 # Create a router with the /api prefix
 api_router = APIRouter(prefix="/api")
 
-logger = logging.getLogger("voyage")
+logger = logging.getLogger("Roamio")
 
 
 @api_router.get("/")
 async def root():
-    return {"message": "VoyageAI API", "provider_mode": os.environ.get("PROVIDER_MODE", "mock")}
+    return {"message": "Roamio API", "provider_mode": os.environ.get("PROVIDER_MODE", "mock")}
 
 
 api_router.include_router(auth_router)

@@ -12,8 +12,8 @@ from models.search import ExploreSearchRequest, FlightSearchRequest, StaySearchR
 from models.trip import CityStay, Trip, User
 from providers.mock import MockExploreProvider, MockFlightProvider, MockStayProvider
 
-DEMO_EMAIL = "demo@voyageai.app"
-DEMO_PASSWORD = "voyage123"
+DEMO_EMAIL = "demo@Roamio.app"
+DEMO_PASSWORD = "Roamio123"
 
 
 async def main() -> None:

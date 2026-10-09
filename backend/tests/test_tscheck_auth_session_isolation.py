@@ -15,7 +15,7 @@ def _signup(suffix: str) -> CookieAwareClient:
         json={"name": "TSCheck User", "email": email, "password": "testpass123"},
     )
     assert resp.status_code == 201, f"signup failed: {resp.status_code} {resp.text}"
-    assert "voyage_session" in resp.cookies, "session cookie not set on signup"
+    assert "Roamio_session" in resp.cookies, "session cookie not set on signup"
     return client
 
 

@@ -1,21 +1,28 @@
 @import "tailwindcss";
 @import "tw-animate-css";
 @import "shadcn/tailwind.css";
-@import "@fontsource-variable/playfair-display";
 @import "@fontsource/ibm-plex-mono";
 @import "@fontsource-variable/dm-sans";
+/* Fraunces (display) is loaded via <link> in index.html — moving it here forces
+   PostCSS to reject the file because @import must precede other statements, and
+   Vite's resolver has already inlined the preceding @imports above into real
+   CSS by the time the URL import is parsed. */
 
 @custom-variant dark (&:is(.dark *));
 
 @theme inline {
     --font-sans: 'DM Sans Variable', sans-serif;
-    --font-heading: 'Playfair Display Variable', serif;
+    --font-heading: 'Fraunces', 'DM Sans Variable', serif;
     --font-mono: 'IBM Plex Mono', monospace;
-    --color-terracotta: #C85A32;
-    --color-terracotta-dark: #A8441F;
-    --color-teal: #0F4C5C;
-    --color-sand: #F5EFE6;
-    --color-sand-line: #E7E2D8;
+
+    /* Legacy color aliases remapped to the new sage palette so every existing
+       bg-terracotta / bg-teal / bg-sand class re-themes without touching sites. */
+    --color-terracotta: #7FAE93;
+    --color-terracotta-dark: #5F8D73;
+    --color-teal: #4A7A8C;
+    --color-sand: #EEF3EC;
+    --color-sand-line: #DDE6DA;
+
     --color-sidebar-ring: var(--sidebar-ring);
     --color-sidebar-border: var(--sidebar-border);
     --color-sidebar-accent-foreground: var(--sidebar-accent-foreground);
@@ -54,9 +61,17 @@
     --radius-2xl: calc(var(--radius) * 1.8);
     --radius-3xl: calc(var(--radius) * 2.2);
     --radius-4xl: calc(var(--radius) * 2.6);
+
     --animate-rise: rise 0.5s cubic-bezier(0.22, 1, 0.36, 1) both;
     --animate-shimmer: shimmer 1.8s linear infinite;
     --animate-drift: drift 9s ease-in-out infinite;
+    --animate-float: float 6s ease-in-out infinite;
+    --animate-float-slow: float 9s ease-in-out infinite;
+    --animate-float-fast: float 4.5s ease-in-out infinite;
+    --animate-orbit: orbit 24s linear infinite;
+    --animate-pulse-ring: pulse-ring 2.6s cubic-bezier(0.4, 0, 0.6, 1) infinite;
+    --animate-draw-line: draw-line 1.6s cubic-bezier(0.65, 0, 0.35, 1) both;
+    --animate-dash-flow: dash-flow 2.4s linear infinite;
 }
 
 @keyframes rise {
@@ -74,73 +89,100 @@
     50% { transform: translateY(-10px) scale(1.015); }
 }
 
+@keyframes float {
+    0%, 100% { transform: translateY(0) rotate(var(--tilt, 0deg)); }
+    50% { transform: translateY(-16px) rotate(var(--tilt, 0deg)); }
+}
+
+@keyframes orbit {
+    from { transform: rotate(0deg); }
+    to   { transform: rotate(360deg); }
+}
+
+@keyframes pulse-ring {
+    0%   { transform: scale(0.9); opacity: 0.6; }
+    80%  { transform: scale(1.6); opacity: 0; }
+    100% { transform: scale(1.6); opacity: 0; }
+}
+
+@keyframes draw-line {
+    from { stroke-dashoffset: 1; }
+    to   { stroke-dashoffset: 0; }
+}
+
+@keyframes dash-flow {
+    from { stroke-dashoffset: 0; }
+    to   { stroke-dashoffset: -14; }
+}
+
 :root {
-    --background: #FAF7F2;
-    --foreground: #1C1917;
+    /* Roamio: sage + cream, light-first */
+    --background: #F7F9F5;
+    --foreground: #1F2A33;
     --card: #FFFFFF;
-    --card-foreground: #1C1917;
+    --card-foreground: #1F2A33;
     --popover: #FFFFFF;
-    --popover-foreground: #1C1917;
-    --primary: #C85A32;
+    --popover-foreground: #1F2A33;
+    --primary: #7FAE93;              /* sage */
     --primary-foreground: #FFFFFF;
-    --secondary: #F0EAE0;
-    --secondary-foreground: #292524;
-    --muted: #F5EFE6;
-    --muted-foreground: #78716C;
-    --accent: #0F4C5C;
+    --secondary: #EEF3EC;            /* mint cream */
+    --secondary-foreground: #1F2A33;
+    --muted: #EEF3EC;
+    --muted-foreground: #5B6B74;
+    --accent: #4A7A8C;               /* dusty blue */
     --accent-foreground: #FFFFFF;
     --destructive: #B91C1C;
-    --border: #E7E2D8;
-    --input: #E0DACE;
-    --ring: #C85A32;
-    --chart-1: #C85A32;
-    --chart-2: #0F4C5C;
-    --chart-3: #B45309;
-    --chart-4: #7C8471;
-    --chart-5: #8C6A52;
-    --radius: 0.75rem;
+    --border: #DDE6DA;
+    --input: #DDE6DA;
+    --ring: #7FAE93;
+    --chart-1: #7FAE93;
+    --chart-2: #4A7A8C;
+    --chart-3: #FDB97E;
+    --chart-4: #B4CED9;
+    --chart-5: #8C9F7F;
+    --radius: 1rem;
     --sidebar: #FFFFFF;
-    --sidebar-foreground: #1C1917;
-    --sidebar-primary: #C85A32;
+    --sidebar-foreground: #1F2A33;
+    --sidebar-primary: #7FAE93;
     --sidebar-primary-foreground: #FFFFFF;
-    --sidebar-accent: #F5EFE6;
-    --sidebar-accent-foreground: #1C1917;
-    --sidebar-border: #E7E2D8;
-    --sidebar-ring: #C85A32;
+    --sidebar-accent: #EEF3EC;
+    --sidebar-accent-foreground: #1F2A33;
+    --sidebar-border: #DDE6DA;
+    --sidebar-ring: #7FAE93;
 }
 
 .dark {
-    --background: #1C1917;
-    --foreground: #FAF7F2;
-    --card: #262220;
-    --card-foreground: #FAF7F2;
-    --popover: #262220;
-    --popover-foreground: #FAF7F2;
-    --primary: #E07A4E;
-    --primary-foreground: #1C1917;
-    --secondary: #33302C;
-    --secondary-foreground: #FAF7F2;
-    --muted: #2E2A26;
-    --muted-foreground: #A8A29E;
-    --accent: #1E6878;
+    --background: #141C19;
+    --foreground: #F7F9F5;
+    --card: #1C2622;
+    --card-foreground: #F7F9F5;
+    --popover: #1C2622;
+    --popover-foreground: #F7F9F5;
+    --primary: #9BC4AC;
+    --primary-foreground: #141C19;
+    --secondary: #26322E;
+    --secondary-foreground: #F7F9F5;
+    --muted: #26322E;
+    --muted-foreground: #A3B0A9;
+    --accent: #6D9DB0;
     --accent-foreground: #FFFFFF;
     --destructive: #F87171;
     --border: oklch(1 0 0 / 12%);
     --input: oklch(1 0 0 / 16%);
-    --ring: #E07A4E;
-    --chart-1: #E07A4E;
-    --chart-2: #1E6878;
-    --chart-3: #D97706;
-    --chart-4: #9CA68F;
-    --chart-5: #B08768;
-    --sidebar: #262220;
-    --sidebar-foreground: #FAF7F2;
-    --sidebar-primary: #E07A4E;
-    --sidebar-primary-foreground: #1C1917;
-    --sidebar-accent: #33302C;
-    --sidebar-accent-foreground: #FAF7F2;
+    --ring: #9BC4AC;
+    --chart-1: #9BC4AC;
+    --chart-2: #6D9DB0;
+    --chart-3: #FDB97E;
+    --chart-4: #B4CED9;
+    --chart-5: #B5BDA8;
+    --sidebar: #1C2622;
+    --sidebar-foreground: #F7F9F5;
+    --sidebar-primary: #9BC4AC;
+    --sidebar-primary-foreground: #141C19;
+    --sidebar-accent: #26322E;
+    --sidebar-accent-foreground: #F7F9F5;
     --sidebar-border: oklch(1 0 0 / 12%);
-    --sidebar-ring: #E07A4E;
+    --sidebar-ring: #9BC4AC;
 }
 
 @layer base {
@@ -157,6 +199,7 @@
 
 @utility font-display {
     font-family: var(--font-heading);
+    font-variation-settings: "opsz" 48, "SOFT" 100;
     letter-spacing: -0.02em;
 }
 

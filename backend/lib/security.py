@@ -15,7 +15,7 @@ from models.trip import User
 
 logger = logging.getLogger(__name__)
 
-SESSION_COOKIE = "voyage_session"
+SESSION_COOKIE = "Roamio_session"
 SESSION_DAYS = 30
 
 _pwd = CryptContext(schemes=["pbkdf2_sha256"], deprecated="auto")
@@ -60,11 +60,11 @@ async def destroy_session(token: str | None, response: Response) -> None:
     response.delete_cookie(SESSION_COOKIE, path="/")
 
 
-async def current_user(voyage_session: str | None = Cookie(default=None)) -> User:
+async def current_user(Roamio_session: str | None = Cookie(default=None)) -> User:
     """FastAPI dependency — 401s unless a live session cookie resolves to a user."""
-    if not voyage_session:
+    if not Roamio_session:
         raise HTTPException(status_code=401, detail="Not authenticated")
-    sess = await db.sessions.find_one({"token_hash": _token_hash(voyage_session)})
+    sess = await db.sessions.find_one({"token_hash": _token_hash(Roamio_session)})
     if not sess:
         raise HTTPException(status_code=401, detail="Session expired")
     expires = sess.get("expires_at")
