@@ -1,14 +1,14 @@
-# VoyageAI ✈️
+# Roamio ✈️
 
 > **AI-powered travel planning, discovery, and trip management platform**
 
-VoyageAI is an AI-assisted travel planning application that turns a natural-language travel request into a structured, editable trip.
+Roamio is an AI-assisted travel planning application that turns a natural-language travel request into a structured, editable trip.
 
 A user can describe a trip such as:
 
 > "Plan me a 7-day Thailand trip for two people with beaches, nightlife, good food, and a moderate budget."
 
-VoyageAI transforms that intent into a structured trip containing an itinerary, destination discovery, flights, stays, activities, and a deterministic budget.
+Roamio transforms that intent into a structured trip containing an itinerary, destination discovery, flights, stays, activities, and a deterministic budget.
 
 The application is designed around an important principle:
 
@@ -20,7 +20,7 @@ The application is designed around an important principle:
 
 **Status: Active development**
 
-VoyageAI was originally bootstrapped using Emergent, but the project has evolved significantly beyond the original starter application.
+Roamio was originally bootstrapped using Emergent, but the project has evolved significantly beyond the original starter application.
 
 The repository should be treated as an actively developed full-stack application rather than an Emergent/Farm starter template.
 
@@ -54,7 +54,7 @@ That file is the **living functional specification** and should be consulted bef
 
 # 🎯 Product Vision
 
-VoyageAI aims to provide a single workspace where a traveler can:
+Roamio aims to provide a single workspace where a traveler can:
 
 1. Describe a trip naturally.
 2. Generate an initial trip plan using AI.
@@ -66,7 +66,7 @@ VoyageAI aims to provide a single workspace where a traveler can:
 8. Ask an AI travel copilot questions about the trip.
 9. Eventually deep-link to external booking providers.
 
-VoyageAI **does not process payments or directly complete bookings**.
+Roamio **does not process payments or directly complete bookings**.
 
 Booking controls should redirect users to the relevant external provider.
 
@@ -76,7 +76,7 @@ Booking controls should redirect users to the relevant external provider.
 
 ## 1. Landing
 
-User arrives at VoyageAI and sees a natural-language trip planning experience.
+User arrives at Roamio and sees a natural-language trip planning experience.
 
 Example:
 
@@ -317,7 +317,7 @@ However, AI functionality should remain behind an abstraction rather than being 
 
 # 🧠 AI vs Deterministic Logic
 
-This distinction is one of the most important architectural principles of VoyageAI.
+This distinction is one of the most important architectural principles of Roamio.
 
 ## AI should handle
 
@@ -1062,7 +1062,7 @@ into:
 
 # 🤖 Instructions for AI Coding Agents
 
-If another AI coding agent is asked to continue development on VoyageAI, it should follow this process.
+If another AI coding agent is asked to continue development on Roamio, it should follow this process.
 
 ### Step 1 — Understand the project
 
@@ -1317,7 +1317,7 @@ Likewise, if the implementation intentionally differs from the specification, de
 
 # 🗺️ Product Direction
 
-The long-term VoyageAI experience should feel like:
+The long-term Roamio experience should feel like:
 
 ```text
 Natural language
@@ -1349,7 +1349,7 @@ The goal is to build a **real trip-management application where AI is an intelli
 
 | Area             | Technology / Location                  |
 | ---------------- | -------------------------------------- |
-| Product          | VoyageAI                               |
+| Product          | Roamio                               |
 | Frontend         | React 19 + TypeScript                  |
 | Build            | Vite                                   |
 | Styling          | Tailwind CSS v4                        |
@@ -1377,7 +1377,7 @@ The goal is to build a **real trip-management application where AI is an intelli
 
 # ✨ Final Principle
 
-**VoyageAI should remain a structured travel application first and an AI application second.**
+**Roamio should remain a structured travel application first and an AI application second.**
 
 AI makes the experience intelligent and conversational.
 
